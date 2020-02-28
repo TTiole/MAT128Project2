@@ -6,6 +6,8 @@ function [err, WFinal] = Network(nNeurons, trainingData, testData, weightScale, 
     % WFinal is the set of weights at the end
     % nNeurons is an array of the number of neurons the network should have per layer
     % (number of layers is implied by the length of the array)
+    % weightScale is the range of the random initial weights
+    % eta is the 
     
     nLayers = length(nNeurons);
     
