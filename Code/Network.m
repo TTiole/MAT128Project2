@@ -1,4 +1,4 @@
-function [err, WFinal] = Network(nNeurons, trainingData, testData)
+function [err, WFinal] = Network(nNeurons, trainingData, testData, weightScale, eta)
     % This function goes through the entire process of training and
     % testing a network
     
