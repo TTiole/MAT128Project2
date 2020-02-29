@@ -1,7 +1,7 @@
 % MAT128B Project 2
 % Winter 2020
 % Created by: Eli Frances Nikos
-
+clc; close all;
 
 %% Read Data
 n_train = 60000; n_test = 10000;
@@ -19,9 +19,13 @@ hold off
 %% Initialize Values
 hidden_layers = 2;
 layers = hidden_layers + 2;
-neurons = [400 10 5 1]; % just as example with 400 inputs, 10 neurons is first hidden layer, 5 in second and 1 output
-W = cell(layers,1);
-scale = .5; offset = 0; % these may be unnecessary
-for i = 1:layers-1
-    W{i} = offset + scale*rand(neurons(i),neurons(i+1)); % rand randomly generates values from 0 to 1, so use scale to effect value range
+neurons = [400 10 5 10]; % just as example with 400 inputs, 10 neurons is first hidden layer, 5 in second and 10 outputs
+
+% Not sure if this is headed in the right direction
+Layer = cell(layers,1);
+Layer{1} = reshape(img_train(:,:,1),400,1);
+for i = 2:layers
+    for j = 1:neurons(i)
+        Layer{i}(j) = Neuron( Layer{i-1}, W{i-1}(:,j) );
+    end
 end

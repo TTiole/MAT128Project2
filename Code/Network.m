@@ -14,12 +14,12 @@ function [err, WFinal] = Network(nNeurons, trainingData, testData, weightScale, 
     % Preallocate
     wInitial = cell(1, nLayers-1);
     
-    
     % Initialize weights
     for i = 1:nLayers-1
         % Initialize initial weights here. Ideally calling another function for
         % it (part v)
-        wInitial{i} = zeros(nNeurons(i), nNeurons(i+1));
+        wInitial{i} = zeros(nNeurons(i), nNeurons(i+1)); % not sure if this is necessary, i think rand might preallocate on its own
+        wInitial{i} = scale*rand(nNeurons(i), nNeurons(i+1));
     end
     
     % Train data
