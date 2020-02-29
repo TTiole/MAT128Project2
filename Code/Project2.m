@@ -17,15 +17,6 @@ xlim([0 20]); ylim([0 20]); axis off;
 hold off
 
 %% Initialize Values
-hidden_layers = 2;
-layers = hidden_layers + 2;
 neurons = [400 10 5 10]; % just as example with 400 inputs, 10 neurons is first hidden layer, 5 in second and 10 outputs
-
-% Not sure if this is headed in the right direction
-Layer = cell(layers,1);
-Layer{1} = reshape(img_train(:,:,1),400,1);
-for i = 2:layers
-    for j = 1:neurons(i)
-        Layer{i}(j) = Neuron( Layer{i-1}, W{i-1}(:,j) );
-    end
-end
+layers = length(neurons);
+Network(neurons, img_train, img_test, label_train, .1, .05);

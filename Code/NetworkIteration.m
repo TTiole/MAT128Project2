@@ -1,4 +1,4 @@
-function [result, WNew] = NetworkIteration(W, input, training)
+function [result, WNew] = NetworkIteration(W, input, label, eta, training)
     % This function runs through a single iteration of the network (a
     % single image)
     
@@ -27,10 +27,11 @@ function [result, WNew] = NetworkIteration(W, input, training)
     end
     
     result = I{end};
-    if(~traning)
+    if(~training)
         WNew = NaN;
         return;
     end
     
     % Backpropagation
+    NetworkBackpropagate(I, W, label, eta)
 end
