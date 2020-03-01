@@ -19,7 +19,7 @@ function [result, WNew] = NetworkIteration(W, input, label, eta, training)
     
     % Begin populating the I array
     for i = 2:nLayers
-        nNeurons = I{i};
+        nNeurons = length(I{i}); % this needs to be done some other way considering one  the input is two dimensional
         w = W{i-1};
         for j = 1:nNeurons
             I{i}(j) = Neuron(I{i-1}, w(:, j));
@@ -33,5 +33,5 @@ function [result, WNew] = NetworkIteration(W, input, label, eta, training)
     end
     
     % Backpropagation
-    NetworkBackpropagate(I, W, label, eta)
+    WNew = NetworkBackpropagateOldWeights(I, W, label, eta);
 end

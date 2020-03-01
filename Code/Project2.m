@@ -12,11 +12,14 @@ n_train = 60000; n_test = 10000;
 plot_data  = @(A) image(rot90(A')*100);
 
 figure(); hold on
-plot_data(img_test(:,:,1))
+plot_data(img_test(:,:,5))
 xlim([0 20]); ylim([0 20]); axis off;
 hold off
 
-%% Initialize Values
-neurons = [400 10 5 10]; % just as example with 400 inputs, 10 neurons is first hidden layer, 5 in second and 10 outputs
+%% Testing
+neurons = [400 10 10 10]; % just as example with 400 inputs, 10 neurons is first hidden layer, 5 in second and 10 outputs
 layers = length(neurons);
-Network(neurons, img_train, img_test, label_train, .1, .05);
+train_New = reshape(img_train,[400,n_train]);
+test_New = reshape(img_test,[400,n_test]);
+n = 100; % run a subset of data for debugging so it doesnt take as long
+[err, WFinal] = Network(neurons, train_New(:,1:n), img_test(:,1:n), label_train(1:n), label_test(1:n), .1, .05);
