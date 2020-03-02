@@ -43,5 +43,5 @@ function WNew = NetworkBackpropagate(I, W, label, eta)
         end
         W{L} = W{L} + deltaW;
     end
-    WNew = W;
+   WNew = W;
 end

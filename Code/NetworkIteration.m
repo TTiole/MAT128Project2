@@ -28,7 +28,7 @@ function [result, WNew] = NetworkIteration(W, input, label, eta, training)
     
     result = I{end};
     if(~training)
-        WNew = NaN;
+        WNew = W; % I dont think we should rewrite it to NAN
         return;
     end
     

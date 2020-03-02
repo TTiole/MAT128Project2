@@ -6,7 +6,6 @@ function [error, prediction] = TestNetwork(testData, testLabels, WFinal)
     prediction = zeros(nTests,1);
     error = zeros(nTests,1);
     for k = 1:nTests
-        clear I
         I = cell(4,1);
         I{1} = testData(:,k);
         for i = 2:4

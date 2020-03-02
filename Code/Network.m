@@ -28,7 +28,7 @@ function [err, prediction, WFinal] = Network(nNeurons, trainingData, testData, l
     trainingDataLength = size(trainingData,2); % if we pre-flatten data into a vector
     for i = 1:trainingDataLength
         %[result, W] = NetworkIteration(W, trainingData(:, :, i), label, eta, true);
-        [result, W] = NetworkIteration(W, trainingData(:, i), label, eta, true); % for preflatenned data
+        [result, W] = NetworkIteration(W, trainingData(:, i), label(i), eta, true); % for preflatenned data
     end
     WFinal = W;
     [err, prediction] = TestNetwork(testData, testLabels, WFinal);
