@@ -1,4 +1,4 @@
-function WNew = NetworkBackpropagateOldWeights(I, W, label, eta)
+function WNew = NetworkBackpropagate(I, W, label, eta)
     % This function goes through the backpropagation step of using the
     % label and the input values in order to change the weights in order to
     % minize error
