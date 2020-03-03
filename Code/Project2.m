@@ -23,11 +23,12 @@ neurons = [400 13 7 10]; % Define neurons and layers
 % flatten data
 trainVector = reshape(img_train,[400,n_train]);
 testVector = reshape(img_test,[400,n_test]);
-n = 1000; % run a subset of data for debugging so it doesnt take as long
+% n = 1000; % run a subset of data for debugging so it doesnt take as long
 tic
-[err, prediction, WFinal] = Network(neurons, trainVector(:,1:n_train), testVector(:,1:n_test), label_train(1:n_train), label_test(1:n_test), 1, .05);
+[err, avgError, prediction, WFinal, correctness, avgCorrectness] = Network(neurons, trainVector(:,1:n_train), testVector(:,1:n_test), label_train(1:n_train), label_test(1:n_test), 1, .05);
 toc
 
+fprintf("The network executed with an average error of %2.2f%% and average correctness of %2.2f%% \n", avgError*100, avgCorrectness*100);
 
 %% Parameter study
 %figure(); hold on;
