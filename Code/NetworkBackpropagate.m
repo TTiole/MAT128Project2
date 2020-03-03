@@ -19,7 +19,7 @@ function WNew = NetworkBackpropagate(I, W, label, eta)
     % First calculate errors and deltas of the output layer
     target = zeros(length(I{end}),1);
     target(label+1) = 1; % set the index representing the actual value to 1
-    error{end} = (I{end}(:) - target)'; % error as a vector
+    error{end} = (target - I{end}(:))'; % error as a vector
     delta{end} = (I{end}(:).*(ones(length(I{end}),1)-I{end}(:)).*error{end}(:))';
     
     % Then psuedo_errors and delta for hidden layers
