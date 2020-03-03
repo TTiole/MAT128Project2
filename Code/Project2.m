@@ -12,18 +12,25 @@ n_train = 60000; n_test = 10000;
 plot_data  = @(A) image(rot90(A')*100);
 
 figure(); hold on
-plot_data(img_test(:,:,5))
+plot_data(img_test(:,:,12))
 xlim([0 20]); ylim([0 20]); axis off;
 hold off
 
 %% Testing
 clear I W WFinal
 clc
-neurons = [400 10 10 10]; % just as example with 400 inputs, 10 neurons is first hidden layer, 5 in second and 10 outputs
-layers = length(neurons);
-train_New = reshape(img_train,[400,n_train]);
-test_New = reshape(img_test,[400,n_test]);
+neurons = [400 13 7 10]; % Define neurons and layers
+% flatten data
+trainVector = reshape(img_train,[400,n_train]);
+testVector = reshape(img_test,[400,n_test]);
 n = 1000; % run a subset of data for debugging so it doesnt take as long
 tic
-[err, prediction, WFinal] = Network(neurons, train_New(:,1:n), img_test(:,1:n), label_train(1:n), label_test(1:n), .5, .05);
+[err, prediction, WFinal] = Network(neurons, trainVector(:,1:n_train), testVector(:,1:n_test), label_train(1:n_train), label_test(1:n_test), 1, .05);
 toc
+
+
+%% Parameter study
+%figure(); hold on;
+%plot(nTrains,error) % plot how the error changes with the number of
+%traninng used
+%hold off
