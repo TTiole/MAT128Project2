@@ -5,6 +5,5 @@ function OUT = Neuron(I, W)
         IW = I(i)*W(i);
         NET = NET + IW;
     end
-    % NET = dot(I,W); %vectorization
     OUT = 1/(1 + exp(-NET));
 end
