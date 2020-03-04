@@ -22,7 +22,7 @@ function [err, avgError, prediction, WFinal, correctness, avgCorrectness] = Netw
     
     % Initialize weights
     for i = 1:nLayers-1
-        wInitial{i} = -1 + 2*weightScale*rand(nNeurons(i), nNeurons(i+1));
+        wInitial{i} = -weightScale + 2*weightScale*rand(nNeurons(i), nNeurons(i+1));
     end
     W = wInitial;
     

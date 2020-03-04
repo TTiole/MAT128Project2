@@ -21,10 +21,9 @@ testVector = reshape(img_test,[400,n_test]);
 
 %% Testing
 clc
-neurons = [400 8 13 10]; % Define neurons and layers
+neurons = [400 13 7 10]; % Define neurons and layers
 tic
-[err, avgError, prediction, WFinal, correctness, avgCorrectness] = Network(neurons, trainVector(:,1:n_train), testVector(:,1:n_test), label_train(1:n_train), label_test(1:n_test), .2, .05);
-toc
+[err, avgError, prediction, WFinal, correctness, avgCorrectness] = Network(neurons, trainVector(:,1:n_train), testVector, label_train(1:n_train), label_test, .1, .5);
 
 fprintf("The network executed with an average error of %2.2f%% and average correctness of %2.2f%% \n", avgError*100, avgCorrectness*100);
 
@@ -39,14 +38,14 @@ trainRates = linspace(0.01,1,4);
 
 iter = 0;
 tic
-for i = 1:length(neuronPar)
-    for j = 1:length(trainSets)
+for i = 1:1 %length(trainSets)
+    for j = 1:length(neuronPar)
         for k = 1:length(weightScales)
             for l = 1:length(trainRates)
                 iter = iter + 1;
                 fprintf('On iteration %i of %i',iter,length(neuronPar)*length(trainSets)*length(weightScales)*length(trainRates))
                 tic
-                Network(neuronPar{i}, trainVector(:,1:trainSets(j)), testVector, label_train(1:trainSets(j)), label_test, weightScales(k), trainRates(l));
+                [~, avgError(i,j,k,l), ~, ~, ~, avgCorrectness(i,j,k,l)] = Network(neuronPar{j}, trainVector(:,1:trainSets(i)), testVector, label_train(1:trainSets(i)), label_test, weightScales(k), trainRates(l));
                 toc
             end
         end
