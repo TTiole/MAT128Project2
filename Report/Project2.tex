@@ -1,7 +1,11 @@
 \documentclass[letterpaper,11pt]{article}
 
-\usepackage{amsmath}
-\usepackage{graphicx}
+\usepackage{amsmath, amsfonts, amsthm, graphics, latexsym, multicol}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\pagestyle{empty}
+\usepackage{graphicx,float}
+\usepackage{enumitem}
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{mcode}
 \usepackage{subcaption}
@@ -11,12 +15,24 @@
 \title{Project 2: Neural Networks \\
 		\large MAT128B Winter 2020}
 \author{Eli , Frances, Nikos Trembois}
-\date{March 13, 2020}
+\date{March 6, 2020}
 \maketitle
 \tableofcontents
 \newpage
 
 \section*{Introduction}
+In this project, we will train a neural network to read and correctly output an image. The structure of our network is the number of layers (input, output, and hidden layers) each of which we'll assign a number of neurons. We'll start with the function readMNIST which reads the digits and labels from the MNIST data files. This will be our training set. This function returns a $20 x 20$ matrix for each image, so $400$ pixels represented as neurons, each assigned a value between $0$ and $1$. This will be our input layer. Through forward passing our input values and their associated weights, and backpropagation, we will train the network to adjust its weights in order to minimize the error between our input and target values.
+
+\section{Plot Digits}
+
+\section{A Neuron}
+\section{Multilayer Network}
+Our output layer will be an array of 10 neurons
+\section{Initializing the network}
+\section{Training the Network}
+To see how accurately we've trained our network, we'll evaluate the values of error, avgError, prediction, correctness, and avgCorrectness. Our TestNetwork function will run the ForwardPass on our network with the final adjusted weights, WFinal.
+
+\section{Dependence on Parameters}
 
 
 \section{Conclusion}
