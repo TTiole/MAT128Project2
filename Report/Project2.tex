@@ -21,14 +21,21 @@
 \newpage
 
 \section*{Introduction}
-In this project, we will train a neural network to read and correctly output an image. The structure of our network is the number of layers (input, output, and hidden layers) each of which we'll assign a number of neurons. We'll start with the function readMNIST which reads the digits and labels from the MNIST data files. This will be our training set. This function returns a $20 x 20$ matrix for each image, so $400$ pixels represented as neurons, each assigned a value between $0$ and $1$. This will be our input layer. Through forward passing our input values and their associated weights, and backpropagation, we will train the network to adjust its weights in order to minimize the error between our input and target values.
+In this project, we will train a neural network to read and correctly output an image. The structure of our network is the number of layers (input, output, and hidden layers) each of which we'll assign a number of neurons. We'll start with the function readMNIST which reads the digits and labels from the MNIST data files. This will be our training set. This function returns a $20 x 20$ matrix for each image, so $400$ pixels represented as neurons, each assigned n input connections and n weights. This set of neurons will be our input layer. Through the forward passing and backpropagation of the values and weights of each training pair, we will train the network to adjust its weights between each layer, in order to minimize the error between the input and target values.
 
 \section{Plot Digits}
 
 \section{A Neuron}
+For $0$ NET, the OUT value is 0.5. As NET increases, OUT converges to $1$.
+We can use other functions s.t. the initial growth is exponential, and the total count has an upper limit.
+NET = $\displaystyle{\sum^{n}_{i=1}O_{i}W_{i}}$.
+Verify F'(NET) = $OUT(1-OUT)$, where OUT = $F(NET) = \frac{1}{1 + e^{-NET}}$.
+
 \section{Multilayer Network}
-Our output layer will be an array of 10 neurons
+Our output layer will be an array of 10 neurons...
+Backpropagation: Talk abt deltas/ difference in calculating deltas of output vs. hidden
 \section{Initializing the network}
+Assign random small number to each weight...
 \section{Training the Network}
 To see how accurately we've trained our network, we'll evaluate the values of error, avgError, prediction, correctness, and avgCorrectness. Our TestNetwork function will run the ForwardPass on our network with the final adjusted weights, WFinal.
 
