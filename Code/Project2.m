@@ -59,11 +59,6 @@ end
 
 
 %% Plotting the results of parameter study
-% The networds are connected by a meshgrid of the same color
-% colors = {'b', 'g', 'r', 'c', 'm', 'y', 'b', 'b', 'r', 'r', 'c', 'm', 'y', 'b' ,'b'};
-% for i = 1:length(neuronPar)
-%     colors{i} = jet(256/i);
-% end
 colors = [1 1 0;
           1 0 1;
           0 1 1;
@@ -78,7 +73,7 @@ colors = [1 1 0;
           0.75 0.75 0; 
           .5 .5 .5;
           .75 .25 .25;
-          .5 0 0]
+          .5 0 0];
 [X,Y] = meshgrid(trainRates,weightScales);
 figure(); hold on
 for i = 1:length(neuronPar)
