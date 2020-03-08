@@ -40,6 +40,10 @@ Assign random small number to each weight...
 To see how accurately we've trained our network, we'll evaluate the values of error, avgError, prediction, correctness, and avgCorrectness. Our TestNetwork function will run the ForwardPass on our network with the final adjusted weights, WFinal.
 
 \section{Dependence on Parameters}
+Since little is known about how the network chooses its weights during the training process, selecting the ideal number of network layers and neurons, as well as initial weights and training rate is a difficult choice. Instead, a parameter study is used to find the dependence on specifc variables. Training a network takes time and studying more variations increases the likelihood of finding a better network. First a parameter study was done for a few networks to see their dependence on the number of training images. The effect of the training images is trivial, but a value for which the sets reach a plateau was sought. This turned out to be about one-fifth of the training set data. So the rest of the parameter study was carried out using one-fifth of the training set so more configurations could be studied in less time. Additionally, the effects of the extremes for the training rate and initial weights were studied, then a subrange was chosen for subsequent studies. 
+% Need to recall these values
+% We found that training rates greater than or less than ... had poor results, while training rates in the range of ?? to ?? gave the best results with little variation within the range. Similary for weights ...
+Simultaneously, the effect of the number of layers and neurons in the network were studied. The number of hidden layers ranged from one to three and selection of the number of neurons in the layers was mostly random choice. The single hidden layer networks appeared to perform the best with increasing number of neurons given better results.
 
 
 \section{Conclusion}
