@@ -12,9 +12,18 @@ n_train = 60000; n_test = 10000;
 plot_data  = @(A) image(rot90(A')*100);
 
 figure(); hold on
+title(strcat('Handwritten number ',' ',num2str(label_test(5))))
+plot_data(img_train(:,:,5))
+xlim([0 20]); ylim([0 20]); axis off;
+hold off
+saveas(gcf,'../digit1.png')
+
+figure(); hold on
+title(strcat('Handwritten number ',' ',num2str(label_train(12))))
 plot_data(img_test(:,:,12))
 xlim([0 20]); ylim([0 20]); axis off;
 hold off
+saveas(gcf,'../digit2.png')
 
 %% Testing
 clear I W WFinal
