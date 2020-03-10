@@ -39,12 +39,18 @@
 \end{figure}
 
 \section{A Neuron} \label{ref:neuron}
+The function, neuron, calculates the value OUT, which passes NET into an activation function. This function acts as a threshhold for each neuron and determines whether it should be activated or not, depending on whether each neuron’s input is relevant for the model’s prediction. NET is the sum of the product of each input and weight of the neurons of a layer. We store the values of OUT in a vector between each layer. This vector changes for each layer, as the number of neurons and their inputs and weights change during the forward and backpropagation passes.
+
 For $0$ NET, the OUT value is 0.5. As NET increases, OUT converges to $1$.
 We can use other functions so that the initial growth is exponential, and the total count has an upper limit.
 NET = $\displaystyle{\sum^{n}_{i=1}O_{i}W_{i}}$.
-Verify F'(NET) = $OUT(1-OUT)$, where OUT = $F(NET) = \frac{1}{1 + e^{-NET}}$.
-
-The function, neuron, calculates the value OUT, which passes NET into an activation function. NET is the sum of the product of each input and weight of the neurons of a layer. We store the values of OUT in a vector between each layer. This vector changes for each layer, as the number of neurons and their inputs and weights change during the forward and backpropagation passes.
+Verify F'(NET) = $OUT(1-OUT)$, where OUT = $F(NET) = (1 + e^{-NET})^{-1}$.
+F'(NET) = $\frac{\partial OUT}{\partial NET} = (1+e^{-NET})^{-2}$.
+F'(NET) $= OUT(1-OUT)$ = $((1 + e^{-NET})^{-1})(1 - (1 + e^{-NET})^{-1}}$ \\
+	$= (1 + e^{-NET})^{-1}) - (1 + e^{-NET})^{-2})$ \\
+	$= \frac{(1 + e^{-NET})}{(1 + e^{-NET})^{2}} - \frac{1}{(1 + e^{-NET})^{2}}$ \\
+	$= e^{-NET}(1+e^{-NET})^{-2}$ %Not equal ?? 
+	
 
 \section{Multilayer Network}
 Our network consists of an input layer, an output layer, and any number of hidden layers. The number of input neurons is given by the data we are training and testing. Since the input data is a 20 by 20 pixel image, the input layer consists of 400 neurons. Likewise, the output layer is determined by the values we wish to predict. Since we are reading handwritten digits, there are ten possible outcomes, which are the numbers 0-9. On the other hand the hidden layers have a lot of flexibility and their configuration are only limited by their performance which will be discussed in section \ref{sec:param}: Dependence on Parameters. We can alter both the number of hidden layers and the number of neurons in each layer. Once a hidden layer configuration is chosen, the network can be trained and tested.
