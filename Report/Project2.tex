@@ -14,16 +14,18 @@
 
 \title{Project 2: Neural Networks \\
 		\large MAT128B Winter 2020}
-\author{Eli , Frances, Nikos Trembois}
+\author{Eli , Frances Quynn, Nikos Trembois}
 \date{March 6, 2020}
 \maketitle
 \tableofcontents
 \newpage
 
 \section*{Introduction}
-In this project, we will train a neural network to read and correctly output an image. The structure of our network is the number of layers (input, output, and hidden layers) each of which we'll assign a number of neurons. We'll start with the function readMNIST which reads the digits and labels from the MNIST data files. This will be our training set. This function returns a $20 x 20$ matrix for each image, so $400$ pixels represented as neurons, each assigned n input connections and n weights. This set of neurons will be our input layer. Through the forward passing and backpropagation of the values and weights of each training pair, we will train the network to adjust its weights between each layer, in order to minimize the error between the input and target values.
+	In this project, we will train a neural network to read and correctly output an image. The structure of our network is the number of layers (input, output, and hidden layers) each of which we'll assign a number of neurons. We'll start with the function readMNIST which reads the digits and labels from the MNIST data files. This will be our training set. This function returns a $20 x 20$ matrix for each image, so $400$ pixels represented as neurons, each assigned n input connections and n weights. This set of neurons will be our input layer. Through the forward passing and backpropagation of the values and weights of each training pair, we will train the network to adjust its weights between each layer, in order to minimize the error between the input and target values.
 
 \section{Plot Digits}
+	The function ReadMNIST reads the number of digits/images we will test, between 0 and 9, 20 x 20 pixels per image, and a matrix for each image of label values of pixels. We use the functions trimDigits and normalizePixValue to compute the average pixel and count, as well as to normalize the pixel values to values between 0 and 1.
+	Based on our plots, we see that our output for each digit looks correct and our program runs correctly.
 
 \begin{figure}
 \centering
@@ -38,9 +40,11 @@ In this project, we will train a neural network to read and correctly output an 
 
 \section{A Neuron} \label{ref:neuron}
 For $0$ NET, the OUT value is 0.5. As NET increases, OUT converges to $1$.
-We can use other functions s.t. the initial growth is exponential, and the total count has an upper limit.
+We can use other functions so that the initial growth is exponential, and the total count has an upper limit.
 NET = $\displaystyle{\sum^{n}_{i=1}O_{i}W_{i}}$.
 Verify F'(NET) = $OUT(1-OUT)$, where OUT = $F(NET) = \frac{1}{1 + e^{-NET}}$.
+
+The function, neuron, calculates the value OUT, which passes NET into an activation function. NET is the sum of the product of each input and weight of the neurons of a layer. We store the values of OUT in a vector between each layer. This vector changes for each layer, as the number of neurons and their inputs and weights change during the forward and backpropagation passes.
 
 \section{Multilayer Network}
 Our network consists of an input layer, an output layer, and any number of hidden layers. The number of input neurons is given by the data we are training and testing. Since the input data is a 20 by 20 pixel image, the input layer consists of 400 neurons. Likewise, the output layer is determined by the values we wish to predict. Since we are reading handwritten digits, there are ten possible outcomes, which are the numbers 0-9. On the other hand the hidden layers have a lot of flexibility and their configuration are only limited by their performance which will be discussed in section \ref{sec:param}: Dependence on Parameters. We can alter both the number of hidden layers and the number of neurons in each layer. Once a hidden layer configuration is chosen, the network can be trained and tested.
@@ -59,10 +63,10 @@ Assign random small number to each weight...
 To see how accurately we've trained our network, we'll evaluate the values of error, avgError, prediction, correctness, and avgCorrectness. Our TestNetwork function will run the ForwardPass on our network with the final adjusted weights, WFinal.
 
 \section{Dependence on Parameters} \label{sec:param}
-Since little is known about how the network chooses its weights during the training process, selecting the ideal number of network layers and neurons, as well as initial weights and training rate is a difficult choice. Instead, a parameter study is used to find the dependence on specifc variables. Training a network takes time and studying more variations increases the likelihood of finding a better network. First a parameter study was done for a few networks to see their dependence on the number of training images. The effect of the training images is trivial, but a value for which the sets reach a plateau was sought. This turned out to be about one-fifth of the training set data. So the rest of the parameter study was carried out using one-fifth of the training set so more configurations could be studied in less time. Additionally, the effects of the extremes for the training rate and initial weights were studied, then a subrange was chosen for subsequent studies. 
+Since little is known about how the network chooses its weights during the training process, selecting the ideal number of network layers and neurons, as well as initial weights and training rate is a difficult choice. Instead, a parameter study is used to find the dependence on specifc variables. Training a network takes time and studying more variations increases the likelihood of finding a better network. First, a parameter study was done for a few networks to see their dependence on the number of training images. The effect of the training images is trivial, but a value for which the sets reach a plateau was sought. This turned out to be about one-fifth of the training data set. So, the rest of the parameter study was carried out using one-fifth of the training set so more configurations could be studied in less time. Additionally, the effects of the extremes for the training rate and initial weights were studied, then a subrange was chosen for subsequent studies. 
 % Need to recall these values
 % We found that training rates greater than or less than ... had poor results, while training rates in the range of ?? to ?? gave the best results with little variation within the range. Similary for weights ...
-Simultaneously, the effect of the number of layers and neurons in the network were studied. The number of hidden layers ranged from one to three and selection of the number of neurons in the layers was mostly random choice. The single hidden layer networks appeared to perform the best with increasing number of neurons given better results.
+Simultaneously, the effect of the number of layers and neurons in the network were studied. The number of hidden layers ranged from one to three and the selection of the number of neurons in the layers was chosen randomly. The single hidden layer networks appeared to perform the best with increasing number of neurons, giving better results.
 
 
 \section{Conclusion}
