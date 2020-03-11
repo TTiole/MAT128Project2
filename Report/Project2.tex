@@ -1,33 +1,119 @@
 \documentclass[letterpaper,11pt]{article}
 
-\usepackage{amsmath}
-\usepackage{graphicx}
+\usepackage{amsmath, amsfonts, amsthm, graphics, latexsym, multicol}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\pagestyle{empty}
+\usepackage{graphicx,float}
+\usepackage{enumitem}
 \usepackage[ruled,vlined]{algorithm2e}
-\usepackage{mcode}
 \usepackage{subcaption}
+\usepackage{listings}
+
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  frame=single,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
 
 \begin{document}
 
 \title{Project 2: Neural Networks \\
 		\large MAT128B Winter 2020}
-\author{Eli , Frances, Nikos Trembois}
-\date{March 13, 2020}
+\author{Eli , Frances Quynn, Nikos Trembois}
+\date{March 6, 2020}
 \maketitle
 \tableofcontents
 \newpage
 
 \section*{Introduction}
+	In this project, we will train a neural network to read and correctly output an image. The structure of our network is the number of layers (input, output, and hidden layers) each of which we'll assign a number of neurons. We'll start with the function readMNIST which reads the digits and labels from the MNIST data files. This will be our training set. This function returns a $20 x 20$ matrix for each image, so $400$ pixels represented as neurons, each assigned n input connections and n weights. This set of neurons will be our input layer. Through the forward passing and backpropagation of the values and weights of each training pair, we will train the network to adjust its weights between each layer, in order to minimize the error between the input and target values.
+
+\section{Plot Digits}
+	The function ReadMNIST reads the number of digits/images we will test, between 0 and 9, 20 x 20 pixels per image, and a matrix for each image of label values of pixels. We use the functions trimDigits and normalizePixValue to compute the average pixel and count, as well as to normalize the pixel values to values between 0 and 1.
+	Based on our plots, we see that our output for each digit looks correct and our program runs correctly.
+
+\begin{figure}
+\centering
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../Figures/digit1.png}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../Figures/digit2.png}
+	\end{subfigure}
+\caption{Handwritten digits represented by pixels}
+\end{figure}
+
+\section{A Neuron} \label{ref:neuron}
+The function, neuron, calculates the value OUT, which passes NET into an activation function. This function acts as a threshhold for each neuron and determines whether it should be activated or not, depending on whether each neuron’s input is relevant for the model’s prediction. NET is the sum of the product of each input and weight of the neurons of a layer. We store the values of OUT in a vector between each layer. This vector changes for each layer, as the number of neurons and their inputs and weights change during the forward and backpropagation passes.
+
+For $0$ NET, the OUT value is 0.5. As NET increases, OUT converges to $1$.
+We can use other functions so that the initial growth is exponential, and the total count has an upper limit.
+NET = $\displaystyle{\sum^{n}_{i=1}O_{i}W_{i}}$.
+Verify F'(NET) = $OUT(1-OUT)$, where OUT = $F(NET) = (1 + e^{-NET})^{-1}$.
+F'(NET) = $\frac{\partial OUT}{\partial NET} = (1+e^{-NET})^{-2}$.
+F'(NET) $= OUT(1-OUT) = ((1 + e^{-NET})^{-1})(1 - (1 + e^{-NET})^{-1}}$ \\
+	$= (1 + e^{-NET})^{-1}) - (1 + e^{-NET})^{-2})$ \\
+	$= \frac{(1 + e^{-NET})}{(1 + e^{-NET})^{2}} - \frac{1}{(1 + e^{-NET})^{2}}$ \\
+	$= e^{-NET}(1+e^{-NET})^{-2}$ %Not equal ?? 
+	
+
+\section{Multilayer Network}
+Our network consists of an input layer, an output layer, and any number of hidden layers. The number of input neurons is given by the data we are training and testing. Since the input data is a 20 by 20 pixel image, the input layer consists of 400 neurons. Likewise, the output layer is determined by the values we wish to predict. Since we are reading handwritten digits, there are ten possible outcomes, which are the numbers 0-9. On the other hand the hidden layers have a lot of flexibility and their configuration are only limited by their performance which will be discussed in section \ref{sec:param}: Dependence on Parameters. We can alter both the number of hidden layers and the number of neurons in each layer. Once a hidden layer configuration is chosen, the network can be trained and tested.
+
+
+\section{Training the Network}
+We'll initialize the network by assigning random small weights to each input value. The training process involves a forward and backward pass. During the forward pass, the neuron values are calculated as described in section \ref{sec:neuron}. During the backward pass, errors are calculated and propagated backwards through the network and used to update the values of the weights. Calculating the error at the output is simple, the program checks the expected value with the actual value. In our network we desire the output to be one for the neuron respresenting the actual digit and zero for any others. The output, in a way, respresents the networks certainty in predicting each digit, where 1 is 100\% confidence. The weights of the network connecting the inputs to a given output should be changed in proportion to the error as large errors will require a greater change in weights to correct. However, the weights cannot be corrected by just the error alone. The weights connecting the last hidden layer to the output layer are adjusted using the neurons values as well. The method for updating the weights is given in equations \ref{eq:delta} and \ref{eq:deltaW}. What these equations show is how the value of the error is used to update the value of the weights. A single $\delta$ value is given for each neuron. 
+
+\begin{align}
+\delta &= OUT_{q,k}(1-OUT_{q,k})(ERROR) \\
+\Delta w_{pq,k} = \eta \delta_{q,k} OUT_{p,j}
+\end{align}
+
+To calculate delta for a neuron, we use vector multiplication and take the product of the vector $D_{k}$ of deltas of the previous layer and $W^t$, which is the transpose of the adjacency matrix of the weights between this neuron and each neuron in the other layer. Then, we multiply this matrix by Oj$\otimes$(I-Oj), which is the product of the Output vector, Oj, and (I-Oj). This shows the formula for Dj is correct.
+
+\section{Dependence on Parameters} \label{sec:param}
+	Since little is known about how the network chooses its weights during the training process, selecting the ideal number of network layers and neurons, as well as initial weights and training rate is a difficult choice. Instead, a parameter study is used to find the dependence on specific variables. Training a network takes time and studying more variations increases the likelihood of finding a better network. First, a parameter study was done for a few networks to see their dependence on the number of training images. The effect of the training images is trivial, but a value for which the sets reach a plateau was sought. This turned out to be about one-fifth of the training data set. So, the rest of the parameter study was carried out using one-fifth of the training set so more configurations could be studied in less time. Additionally, the effects of the extremes for the training rate and initial weights were studied, then a subrange was chosen for subsequent studies. 
+    We found that training rates greater than 0.5 or less than 0.1 had poor results, while training rates in the range of 0.1 to 0.5 gave the best results with little variation within the range. Similary for weights the optimal maximum absolute value of the initial weights was between 0.5 and 0.7
+Simultaneously, the effect of the number of layers and neurons in the network were studied. The number of hidden layers ranged from one to three and the selection of the number of neurons in the layers was chosen randomly. The single hidden layer networks appeared to perform the best with increasing number of neurons, giving better results.
 
 
 \section{Conclusion}
+
+Although the ranges discussed in the parameter study were most consistent, the network that produced the best results had the following values: a single hidden layer with 200 neurons, a max initial weights of 0.1756 and a training rate of 1.5. This network got the numbers right 92.1\% of the time, with a computed average error of 10.27\%. Meanwhile, the network that performed the worst used three hidden layers with 100, 25, and 5 neurons respectively, max initial weights of 1.5 and training rate of 0.1. This makes sense as we generally saw poor performance with increasing numbers of hidden layers. Combined with the fact that the initial weights are highly random and the training rate is too small to readjust them, led to a very poorly trained network yielding the correct values only 10.02\% of the time. In general, if we were to achieve higher confidence, we could use higher resolution images. Although it would bring the computation time up, having such low resolution images decreases the number of meaningful characterizations the computer can make of each digit. Another issue was that we never played around with different activation functions. Perhaps a different activation function would yield better results. Lastly, we had talked about biasing the input. We know that for the most part there is no relevant data near the corners of the image, thus by biasing against the corners of the image and biasing for the center of the image, we'd train the computer to form connections on the relevant parts of the image, perhaps leading to lower errors.
 
 \newpage
 
 \section{Appendix}
 
-\subsection{Code}
-%\lstinputlisting[breaklines=true]{../Code/Project2.m}
-
 \subsection{Group Work}
+
+For the most part, we all worked hand-in-hand while we worked on this project. Before we wrote any code, all of us met and discussed everything we needed to do in order to move forward with the project; the actual writing of the code is trivial. We met 3 times for about 7 hours total. We also had a text group chat which we communicated over extensively. We created a github repository (https://github.com/TTiole/MAT128Project2) where all the resources (code, data) are available to run the entirety of our project on any computer. The repository also contains this report and figures. As for who coded what, Francis coded the Neuron code in its entirety (she also wrote a lot of the report). Eli wrote the foundation for the Network, NetworkIteration code, while Nikos finished Network and NetworkIteration; and wrote ForwardPass, NetworkBackpropagation, TestNetwork and handled the parameter study. But again, everyone contributed to the designing of the neural network and the implementation through our meetings.
+
+\subsection{Code}
+
+\subsubsection{Design}
+
+When we were talking about how this was going to be implemented, it was very clear that we would want functions for each step in order to structure our code in a way that is readable. The "main" file is Project2.m. This is the file that you'd run in order to see the project in its entirety. It goes through reading the data, performing the parameter study and plotting the results. An instance of a neural network is represented by Network.m, which takes in the parameters discussed (training rate, max absolute value of initial weights, number of neurons per layer). In this function, NetworkIteration is called to go through a single image in order to train the Network and TestNetwork is called in order to test the network in its entirety. Within NetworkIteration, ForwardPass and NetworkBackpropagate perform the two training steps. The former of which uses Neuron, which calculates the Neuron values given the weights and neuron values of the previous layers.
+
+\subsubsection{Project2.m}
+\lstinputlisting[language=Matlab]{../Code/Project2.m}
+\subsubsection{Network.m}
+\lstinputlisting[language=Matlab]{../Code/Network.m}
+\subsubsection{NetworkIteration.m}
+\lstinputlisting[language=Matlab]{../Code/NetworkIteration.m}
+\subsubsection{ForwardPass.m}
+\lstinputlisting[language=Matlab]{../Code/ForwardPass.m}
+\subsubsection{NetworkBackpropagate.m}
+\lstinputlisting[language=Matlab]{../Code/NetworkBackpropagate.m}
+\subsubsection{Neuron.m}
+\lstinputlisting[language=Matlab]{../Code/Neuron.m}
+\subsubsection{TestNetwork.m}
+\lstinputlisting[language=Matlab]{../Code/TestNetwork.m}
+\subsubsection{readMNIST.m}
+\lstinputlisting[language=Matlab]{../Code/readMNIST.m}
+
 
 \end{document}
