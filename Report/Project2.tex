@@ -45,11 +45,11 @@ For $0$ NET, the OUT value is 0.5. As NET increases, OUT converges to $1$.
 We can use other functions so that the initial growth is exponential, and the total count has an upper limit.
 NET = $\displaystyle{\sum^{n}_{i=1}O_{i}W_{i}}$.
 Verify F'(NET) = $OUT(1-OUT)$, where OUT = $F(NET) = (1 + e^{-NET})^{-1}$.
-F'(NET) = $\frac{\partial OUT}{\partial NET} = (1+e^{-NET})^{-2}$.
+F'(NET) = $\frac{\partial OUT}{\partial NET} = e^{-NET}(1+e^{-NET})^{-2}$.
 F'(NET) $= OUT(1-OUT)$ = $((1 + e^{-NET})^{-1})(1 - (1 + e^{-NET})^{-1}}$ \\
 	$= (1 + e^{-NET})^{-1}) - (1 + e^{-NET})^{-2})$ \\
 	$= \frac{(1 + e^{-NET})}{(1 + e^{-NET})^{2}} - \frac{1}{(1 + e^{-NET})^{2}}$ \\
-	$= e^{-NET}(1+e^{-NET})^{-2}$ %Not equal ?? 
+	$= e^{-NET}(1+e^{-NET})^{-2}$
 	
 
 \section{Multilayer Network}
